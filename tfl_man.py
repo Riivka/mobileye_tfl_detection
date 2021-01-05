@@ -1,24 +1,28 @@
 import matplotlib.pyplot as plt
 import attention
+import detection
+import distance
 
 
 class TflMan:
 
-    def __init__(self, pp, focal):
+    def __init__(self, pp, focal, json_filename, h5_filename):
         # self.EM =  # one EM? or list?
         self.pp = pp
         self.focal = focal
+        self.model = detection.open_model(json_filename, h5_filename)
 
     def attention(self, frame):
         red_x, red_y, green_x, green_y = attention.find_tfl_lights(frame)
+        frame.candidates = zip(red_x, red_y)
+        # frame.auxiliary = [red] * len(red_x)
         #return candidates, auxiliary
-        pass
 
     def detection(self, frame):
-        pass
+        frame.traffic_lights = detection.predict(frame.candidates, self.model)
 
     def calc_distance(self, container):
-        pass
+        container.current_frame.distances = distance.calc_tfl_distance(container.prev_frame, container.current_frame, self.focal, self.pp)
 
     def run_frame(self, container, EM):
         # run attention on image- part 1
@@ -30,7 +34,7 @@ class TflMan:
         # run distance - part 3
         self.calc_distance(container)
         self.visualize(container.current_frame)
-        pass
+
 
     def visualize(self, frame):
         # fig, (curr_sec, prev_sec) = plt.subplots(1, 2, figsize=(12, 6))

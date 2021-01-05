@@ -5,4 +5,4 @@ class Frame:
         self.candidates = candidates
         self.auxiliary = auxiliary
         self.traffic_lights = traffic_lights
-        self.distance = distance
+        self.distances = distance

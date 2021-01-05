@@ -37,7 +37,7 @@ def crop_img(img, pos, size):
         tlf_imgs += list(crop_tlf(img, tlf[0], tlf[1], size))
     return tlf_imgs
 
-def load_model(json_filename, h5_filename):
+def open_model(json_filename, h5_filename):
     with open(json_filename, 'r') as j:
         loaded_json = j.read()
 
@@ -45,7 +45,8 @@ def load_model(json_filename, h5_filename):
     loaded_model = keras.models.model_from_json(loaded_json)
     # load the weights:
     loaded_model.load_weights(h5_filename)
-    print(" ".join(["Model loaded from", json_filename, h5_filename]))
+    return loaded_model
+    #print(" ".join(["Model loaded from", json_filename, h5_filename]))
 
 
 def predict(positions, loaded_model):
