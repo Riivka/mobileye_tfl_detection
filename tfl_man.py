@@ -30,9 +30,9 @@ class TflMan:
         self.attention(container.current_frame)
         # run detection tfl based on neural net- part 2
         # #container.current_frame.traffic_light, container.current_frame.auxiliary =
-        self.detection(container.current_frame)
+        #self.detection(container.current_frame)
         # run distance - part 3
-        self.calc_distance(container)
+        #self.calc_distance(container)
         self.visualize(container.current_frame)
 
 
