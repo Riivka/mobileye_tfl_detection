@@ -60,12 +60,3 @@ class Controller:
                 self.tlf_manager.run_frame(container, self.EM_list[index - 1])
 
     # def get_EM_list(self, pkl_data):
-
-
-if __name__ == '__main__':
-    controller = Controller()
-    # load the playlist file
-    controller.load_frame_playlist('frames lists/listOfFrames_dusseldorf_000049.pls.txt')
-    controller.run_all_frames()
-    # t = TlfMan()
-    # t.visualize(0,0,0)
