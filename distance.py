@@ -1,7 +1,7 @@
 import numpy as np
-import pickle
+#import pickle
 # import matplotlib._png as png
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 # import SFM_solution as SFM
 import SFM
 from PIL import Image
@@ -52,33 +52,33 @@ class FrameContainer(object):
 
 
 # read data and run
-dis_3_traffic = []
-for i in range(24, 29):
-    print("prev", i)
-    curr_frame_id = 29
-    prev_frame_id = i
-
-    pkl_path = 'dusseldorf_000049.pkl'
-    prev_img_path = 'dusseldorf_000049_0000' + str(prev_frame_id) + '_leftImg8bit.png'
-    curr_img_path = 'dusseldorf_000049_0000' + str(curr_frame_id) + '_leftImg8bit.png'
-    prev_container = FrameContainer(prev_img_path)
-    curr_container = FrameContainer(curr_img_path)
-    with open(pkl_path, 'rb') as pklfile:
-        data = pickle.load(pklfile, encoding='latin1')
-    #focal = data['flx']  # normalize by focal
-    #pp = data['principle_point']  # should be (0,0)
-    prev_container.traffic_light = np.array(data['points_' + str(prev_frame_id)][0])
-    curr_container.traffic_light = np.array(data['points_' + str(curr_frame_id)][0])
-    # prev_container.traffic_light = np.array([data['points_' + str(prev_frame_id)][0][2]])
-    # curr_container.traffic_light = np.array([data['points_' + str(curr_frame_id)][0][2]])
-    #EM = np.eye(4)  # מצטריצת יחידה-ego motion, r and t
-    #for i in range(prev_frame_id, curr_frame_id):
-    #    EM = np.dot(data['egomotion_' + str(i) + '-' + str(i + 1)], EM)
-    #curr_container.EM = EM
-    curr_container = SFM.calc_TFL_dist(prev_container, curr_container, focal, pp)
-    # visualize(prev_container, curr_container, focal, pp)
-    dis_3_traffic.append(curr_container.traffic_distance)
-
-plt.plot(dis_3_traffic)
-plt.show()
-
+# dis_3_traffic = []
+# for i in range(24, 29):
+#     print("prev", i)
+#     curr_frame_id = 29
+#     prev_frame_id = i
+#
+#     pkl_path = 'dusseldorf_000049.pkl'
+#     prev_img_path = 'dusseldorf_000049_0000' + str(prev_frame_id) + '_leftImg8bit.png'
+#     curr_img_path = 'dusseldorf_000049_0000' + str(curr_frame_id) + '_leftImg8bit.png'
+#     prev_container = FrameContainer(prev_img_path)
+#     curr_container = FrameContainer(curr_img_path)
+#     with open(pkl_path, 'rb') as pklfile:
+#         data = pickle.load(pklfile, encoding='latin1')
+#     #focal = data['flx']  # normalize by focal
+#     #pp = data['principle_point']  # should be (0,0)
+#     prev_container.traffic_light = np.array(data['points_' + str(prev_frame_id)][0])
+#     curr_container.traffic_light = np.array(data['points_' + str(curr_frame_id)][0])
+#     # prev_container.traffic_light = np.array([data['points_' + str(prev_frame_id)][0][2]])
+#     # curr_container.traffic_light = np.array([data['points_' + str(curr_frame_id)][0][2]])
+#     #EM = np.eye(4)  # מצטריצת יחידה-ego motion, r and t
+#     #for i in range(prev_frame_id, curr_frame_id):
+#     #    EM = np.dot(data['egomotion_' + str(i) + '-' + str(i + 1)], EM)
+#     #curr_container.EM = EM
+#     curr_container = SFM.calc_TFL_dist(prev_container, curr_container, focal, pp)
+#     # visualize(prev_container, curr_container, focal, pp)
+#     dis_3_traffic.append(curr_container.traffic_distance)
+#
+# plt.plot(dis_3_traffic)
+# plt.show()
+#

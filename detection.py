@@ -1,5 +1,5 @@
 import math
-import keras
+# import keras
 
 # import seaborn as sbn
 
@@ -42,9 +42,9 @@ def open_model(json_filename, h5_filename):
         loaded_json = j.read()
 
     # load the model architecture:
-    loaded_model = keras.models.model_from_json(loaded_json)
+    loaded_model = None# keras.models.model_from_json(loaded_json)
     # load the weights:
-    loaded_model.load_weights(h5_filename)
+    #loaded_model.load_weights(h5_filename)
     return loaded_model
     #print(" ".join(["Model loaded from", json_filename, h5_filename]))
 
@@ -53,6 +53,10 @@ def predict(positions, loaded_model):
     #print val[images]
     l_predictions = loaded_model.predict(positions)
     #sbn.distplot(l_predictions[:, 0]);
-
+    traffic_lights = []
+    for i, pt in enumerate(positions):
+        if l_predictions[i] == 1:
+            traffic_lights.append(pt)
+    return traffic_lights
     #l_predicted_label = np.argmax(l_predictions, axis=-1)
     #print('accuracy:', np.mean(l_predicted_label == val['labels']))

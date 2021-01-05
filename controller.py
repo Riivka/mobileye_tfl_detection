@@ -10,7 +10,7 @@ class Controller:
         EM_list,img_paths,pp,focal = self.__load_frame_playlist(path)
         self.EM_list = EM_list
         self.frame_paths = img_paths
-        self.tfl_manager = TflMan(pp, focal)
+        self.tfl_manager = TflMan(pp, focal, "model/model_rand_87.json", "model/val_rand_87.h5")
 
     # load frame list file
     def __load_frame_playlist(self, path):
@@ -30,7 +30,7 @@ class Controller:
 
 
     # open and load the pkl file
-    def load_pkl_file(path):
+    def load_pkl_file(self, path):
 
         with open(path, 'rb') as pklfile:
             data = pickle.load(pklfile, encoding='latin1')
@@ -50,13 +50,14 @@ class Controller:
         return EM_list, pp, focal
 
     def run_all_frames(self):
+        container = Container()
         for index,path in enumerate(self.frame_paths):
             image = np.array(Image.open(path))
             frame = Frame(image)
-            container = Container(frame)
-            if index==0:
-                self.tlf_manager.run_frame(container,None)
+            container.set_frame(frame)
+            if index == 0:
+                self.tfl_manager.run_frame(container,None)
             else:
-                self.tlf_manager.run_frame(container, self.EM_list[index - 1])
+                self.tfl_manager.run_frame(container, self.EM_list[index - 1])
 
     # def get_EM_list(self, pkl_data):
