@@ -31,7 +31,7 @@ def find_tfl_lights(c_image: np.ndarray, **kwargs):
     :return: 4-tuple of x_red, y_red, x_green, y_green
     """
     threshold = 652350
-    kernal = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    kernel = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                        [0, 0, 0, 0, -255, -255, -255, -255, 0, 0, 0, 0],
                        [0, 0, 0, -255, 255, 255, 255, 255, -255, 0, 0, 0],
                        [0, 0, -255, 255, 255, 255, 255, 255, 255, -255, 0, 0],
@@ -43,15 +43,15 @@ def find_tfl_lights(c_image: np.ndarray, **kwargs):
                        [0, 0, 0, -255, -255, 255, 255, 255, -255, 0, 0, 0],
                        [0, 0, 0, 0, 0, 0, -255, -255, -255, 0, 0, 0]])  # 12x11
     red_img = c_image[:, :, 0]
-    red_x, red_y = calc_find_tfl(red_img, kernal, threshold)
+    red_x, red_y = calc_find_tfl(red_img, kernel, threshold)
     green_img = c_image[:, :, 1]
     threshold = 842350
     #max_threshold = 942350
-    green_x, green_y = calc_find_tfl(green_img, kernal, threshold)
+    green_x, green_y = calc_find_tfl(green_img, kernel, threshold)
     #blue_img = c_image[:, :, 2]
     #threshold = 0
-    #kernal = np.array([[0, 63, 0],[64, -255, 64],[0, 64, 0],])
-    #blue_x, blue_y = calc_find_tfl(blue_img, kernal, threshold)
+    #kernel = np.array([[0, 63, 0],[64, -255, 64],[0, 64, 0],])
+    #blue_x, blue_y = calc_find_tfl(blue_img, kernel, threshold)
     return red_x, red_y, green_x, green_y#, blue_x, blue_y
 
 def decide_color():
