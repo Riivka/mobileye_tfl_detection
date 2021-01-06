@@ -10,7 +10,7 @@ class Controller:
         EM_list,img_paths,pp,focal = self.__load_frame_playlist(path)
         self.EM_list = EM_list
         self.frame_paths = img_paths
-        self.tfl_manager = TflMan(pp, focal, "model/model_rand_87.json", "model/val_rand_87.h5")
+        self.tfl_manager = TflMan(pp, focal, "model/model_rand_85.json", "model/val_rand_85.h5")
 
     # load frame list file
     def __load_frame_playlist(self, path):
@@ -37,7 +37,7 @@ class Controller:
 
         first_frame_id = 24
         last_frame_id = 29
-        EM_list = []
+        EM_list = [None]
 
         for frame_id in range(first_frame_id, last_frame_id + 1):
             EM = np.eye(4)
@@ -56,8 +56,8 @@ class Controller:
             frame = Frame(image)
             container.set_frame(frame)
             if index == 0:
-                self.tfl_manager.run_frame(container,None)
+                self.tfl_manager.run_frame(container, self.EM_list[index])
             else:
-                self.tfl_manager.run_frame(container, self.EM_list[index - 1])
+                self.tfl_manager.run_frame(container, self.EM_list[index])
 
     # def get_EM_list(self, pkl_data):

@@ -1,8 +1,8 @@
 import numpy as np
 from math import sqrt
 
-def calc_TFL_dist(prev_container, curr_container, focal, pp):
-    norm_prev_pts, norm_curr_pts, R, foe, tZ = prepare_3D_data(prev_container, curr_container, focal, pp)
+def calc_TFL_dist(prev_container, curr_container, focal, pp, EM):
+    norm_prev_pts, norm_curr_pts, R, foe, tZ = prepare_3D_data(prev_container, curr_container, focal, pp, EM)
     if(abs(tZ) < 10e-6):
         print('tz = ', tZ)
     elif (norm_prev_pts.size == 0):
@@ -10,14 +10,14 @@ def calc_TFL_dist(prev_container, curr_container, focal, pp):
     elif (norm_curr_pts.size == 0):
         print('no curr points')
     else:
-        curr_container.corresponding_ind, curr_container.traffic_lights_3d_location, curr_container.valid, curr_container.traffic_distance = calc_3D_data(norm_prev_pts, norm_curr_pts, R, foe, tZ)
+        curr_container.corresponding_ind, curr_container.traffic_lights_3d_location, curr_container.valid, curr_container.distances = calc_3D_data(norm_prev_pts, norm_curr_pts, R, foe, tZ)
 
     return curr_container
 
-def prepare_3D_data(prev_container, curr_container, focal, pp):
-    norm_prev_pts = normalize(prev_container.traffic_light, focal, pp)
-    norm_curr_pts = normalize(curr_container.traffic_light, focal, pp)
-    R, foe, tZ = decompose(np.array(curr_container.EM))
+def prepare_3D_data(prev_container, curr_container, focal, pp, EM):
+    norm_prev_pts = normalize(prev_container.traffic_lights, focal, pp)
+    norm_curr_pts = normalize(curr_container.traffic_lights, focal, pp)
+    R, foe, tZ = decompose(np.array(EM))
     return norm_prev_pts, norm_curr_pts, R, foe, tZ
 
 def calc_3D_data(norm_prev_pts, norm_curr_pts, R, foe, tZ):

@@ -7,12 +7,12 @@ import SFM
 from PIL import Image
 
 
-def calc_tfl_distances(prev_container, curr_container, focal, pp):
+def calc_tfl_distances(prev_container, curr_container, focal, pp, EM):
     #norm_prev_pts, norm_curr_pts, R, norm_foe, tZ = SFM.prepare_3D_data(prev_container, curr_container, focal, pp)
     #norm_rot_pts = SFM.rotate(norm_prev_pts, R)
 
-    curr_container = SFM.calc_TFL_dist(prev_container, curr_container, focal, pp)
-    return curr_container.traffic_distance
+    curr_container = SFM.calc_TFL_dist(prev_container, curr_container, focal, pp, EM)
+    return curr_container.distances
 
     #rot_pts = SFM.unnormalize(norm_rot_pts, focal, pp)
     #foe = np.squeeze(SFM.unnormalize(np.array([norm_foe]), focal, pp))

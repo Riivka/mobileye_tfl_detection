@@ -19,13 +19,13 @@ class TflMan:
         #return candidates, auxiliary
 
     def detection(self, frame):
-        frame.traffic_lights = detection.predict(frame.candidates, self.model)
+        frame.traffic_lights = detection.crop_and_predict(frame.image, frame.candidates, self.model)
         pass
 
-    def calc_distance(self, container):
+    def calc_distance(self, container, EM):
         if container.prev_frame is not None:
-            container.current_frame.distances = distance.calc_tfl_distances(container.prev_frame, container.current_frame, self.focal, self.pp)
-            container.current_frame.traffic_lights = container.current_frame.candidates
+            container.current_frame.distances = distance.calc_tfl_distances(container.prev_frame, container.current_frame, self.focal, self.pp, EM)
+            #container.current_frame.traffic_lights = container.current_frame.candidates
         else:
             container.current_frame.traffic_lights = container.current_frame.candidates
             container.current_frame.distances = [1 for i in range(len( container.current_frame.candidates))]
@@ -37,10 +37,10 @@ class TflMan:
         # #container.current_frame.candidates, container.current_frame.auxiliary =
         self.attention(container.current_frame)
         # run detection tfl based on neural net- part 2
-        # #container.current_frame.traffic_light, container.current_frame.auxiliary =
-        #self.detection(container.current_frame)
+        # container.current_frame.traffic_light, container.current_frame.auxiliary =
+        self.detection(container.current_frame)
         # run distance - part 3
-        self.calc_distance(container)
+        self.calc_distance(container, EM)
         self.visualize(container.current_frame)
 
 
@@ -53,7 +53,7 @@ class TflMan:
         sec_part_1.imshow(frame.image)
         x = [pt[0] for pt in frame.candidates]
         y = [pt[1] for pt in frame.candidates]
-        sec_part_1.plot(x, y, 'ro',marker='o', color='r', markersize=2)
+        sec_part_1.plot(x, y, 'ro', marker='o', color='r', markersize=2)
 
         sec_part_2.imshow(frame.image)
 
