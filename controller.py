@@ -50,11 +50,9 @@ class Controller:
         return EM_list, pp, focal
 
     def run_all_frames(self):
-        container = Container()
+
         for index,path in enumerate(self.frame_paths):
             image = np.array(Image.open(path))
-            frame = Frame(image)
-            container.set_frame(frame)
-            self.tfl_manager.run_frame(container, self.EM_list[index])
+            self.tfl_manager.run_frame(image, self.EM_list[index])
 
     # def get_EM_list(self, pkl_data):
