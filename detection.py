@@ -52,13 +52,11 @@ def open_model(json_filename, h5_filename):
 
 
 def predict(positions, loaded_model, points):
-    print(type(positions[0]))
     traffic_lights = []
     for i, img in enumerate(positions):
-        img=img.reshape([-1] + [81, 81] + [3])
+        img = img.reshape([-1] + [81, 81] + [3])
         l_predictions = loaded_model.predict(img)
         l_predicted_label = np.argmax(l_predictions, axis=-1)
-        print(l_predicted_label[0] == 1)
 
         if l_predicted_label[0] == 1:
                 traffic_lights.append(points[i])
@@ -67,7 +65,6 @@ def predict(positions, loaded_model, points):
     # for i, pt in enumerate(positions):
     #     if l_predictions[i] == 1:
     #         traffic_lights.append(pt)
-    print
     return traffic_lights
     #l_predicted_label = np.argmax(l_predictions, axis=-1)
     #print('accuracy:', np.mean(l_predicted_label == val['labels']))

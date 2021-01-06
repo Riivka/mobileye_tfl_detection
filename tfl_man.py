@@ -27,9 +27,8 @@ class TflMan:
             container.current_frame.distances = distance.calc_tfl_distances(container.prev_frame, container.current_frame, self.focal, self.pp, EM)
             #container.current_frame.traffic_lights = container.current_frame.candidates
         else:
-            container.current_frame.traffic_lights = container.current_frame.candidates
-            container.current_frame.distances = [1 for i in range(len( container.current_frame.candidates))]
-            container.current_frame.valid = [1 for i in range(len( container.current_frame.candidates))]
+            container.current_frame.distances = []
+            container.current_frame.valid = []
 
 
     def run_frame(self, container, EM):
@@ -56,15 +55,21 @@ class TflMan:
         sec_part_1.plot(x, y, 'ro', marker='o', color='r', markersize=2)
 
         sec_part_2.imshow(frame.image)
+        x = [pt[0] for pt in frame.traffic_lights]
+        y = [pt[1] for pt in frame.traffic_lights]
+        sec_part_2.plot(x, y, 'ro', marker='o', color='r', markersize=2)
 
         sec_part_3.imshow(frame.image)
+        sec_part_3.plot(x, y, 'ro', marker='o', color='r', markersize=2)
         #curr_sec.plot(curr_p[:, 0], curr_p[:, 1], 'b+')
-        for i in range(len(frame.traffic_lights)):
-            #curr_sec.plot([curr_p[i, 0], foe[0]], [curr_p[i, 1], foe[1]], 'b')
-            if frame.valid[i]:
-                sec_part_3.text(frame.traffic_lights[i][0], frame.traffic_lights[i][1],
-                              r'{0:.1f}'.format(frame.distances[i]), color='r')
+        if frame.valid != []:
+            for i in range(len(frame.traffic_lights)):
+                #curr_sec.plot([curr_p[i, 0], foe[0]], [curr_p[i, 1], foe[1]], 'b')
+                if frame.valid[i]:
+                    sec_part_3.text(frame.traffic_lights[i][0], frame.traffic_lights[i][1],
+                                  r'{0:.1f}'.format(frame.distances[i]), color='r')
         #curr_sec.plot(foe[0], foe[1], 'r+')
         #curr_sec.plot(rot_pts[:, 0], rot_pts[:, 1], 'g+')
 
         plt.show()
+

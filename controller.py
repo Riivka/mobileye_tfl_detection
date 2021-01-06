@@ -55,9 +55,6 @@ class Controller:
             image = np.array(Image.open(path))
             frame = Frame(image)
             container.set_frame(frame)
-            if index == 0:
-                self.tfl_manager.run_frame(container, self.EM_list[index])
-            else:
-                self.tfl_manager.run_frame(container, self.EM_list[index])
+            self.tfl_manager.run_frame(container, self.EM_list[index])
 
     # def get_EM_list(self, pkl_data):
