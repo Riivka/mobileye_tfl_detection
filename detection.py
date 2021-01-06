@@ -1,5 +1,6 @@
 import math
 import keras
+import numpy as np
 
 # import seaborn as sbn
 
@@ -34,10 +35,11 @@ def crop_img(img, pos, size):
     tlf_imgs = []
     for tlf in pos:
         cp = crop_tlf(img, tlf[0], tlf[1], size)
-        tlf_imgs += list(crop_tlf(img, tlf[0], tlf[1], size))
+        #print(cp.shape)
+        tlf_imgs.append(crop_tlf(img, tlf[0], tlf[1], size))
     return tlf_imgs
 
-def load_model(json_filename, h5_filename):
+def open_model(json_filename, h5_filename):
     with open(json_filename, 'r') as j:
         loaded_json = j.read()
 
@@ -45,13 +47,31 @@ def load_model(json_filename, h5_filename):
     loaded_model = keras.models.model_from_json(loaded_json)
     # load the weights:
     loaded_model.load_weights(h5_filename)
-    print(" ".join(["Model loaded from", json_filename, h5_filename]))
+    return loaded_model
+    #print(" ".join(["Model loaded from", json_filename, h5_filename]))
 
 
-def predict(positions, loaded_model):
-    #print val[images]
-    l_predictions = loaded_model.predict(positions)
+def predict(positions, loaded_model, points):
+    print(type(positions[0]))
+    traffic_lights = []
+    for i, img in enumerate(positions):
+        img=img.reshape([-1] + [81, 81] + [3])
+        l_predictions = loaded_model.predict(img)
+        l_predicted_label = np.argmax(l_predictions, axis=-1)
+        print(l_predicted_label[0] == 1)
+
+        if l_predicted_label[0] == 1:
+                traffic_lights.append(points[i])
     #sbn.distplot(l_predictions[:, 0]);
-
+    # traffic_lights = []
+    # for i, pt in enumerate(positions):
+    #     if l_predictions[i] == 1:
+    #         traffic_lights.append(pt)
+    print
+    return traffic_lights
     #l_predicted_label = np.argmax(l_predictions, axis=-1)
     #print('accuracy:', np.mean(l_predicted_label == val['labels']))
+
+def crop_and_predict(img, candidates, model):
+    croped_img = crop_img(img, candidates, 81)
+    return predict(croped_img, model, candidates)
